@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { PackageOpen, TriangleAlert } from "lucide-react";
+import { ArrowUpRight, PackageOpen, TriangleAlert } from "lucide-react";
 import { query } from "@/lib/apolloClient";
 import { formatPrice } from "@/lib/formatPrice";
 import { GET_PRODUCTS } from "@/features/products/graphql/queries";
@@ -36,25 +36,37 @@ export async function ProductList() {
   }
 
   return (
-    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
       {products.map((p) => (
         <li key={p.id}>
           <Link
             href={`/products/${p.id}`}
-            className="block overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 transition hover:border-zinc-600"
+            className="group block overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900 transition hover:-translate-y-0.5 hover:border-zinc-600 hover:shadow-lg hover:shadow-black/30"
           >
-            <Image
-              src={p.imageUrl}
-              alt={p.name}
-              width={600}
-              height={400}
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-              className="aspect-[3/2] w-full object-cover"
-            />
-            <div className="space-y-1 p-4">
-              <h2 className="font-medium">{p.name}</h2>
-              <p className="text-sm text-zinc-400">{p.description}</p>
-              <p className="pt-2 font-semibold">{formatPrice(p.priceCents)}</p>
+            <div className="overflow-hidden">
+              <Image
+                src={p.imageUrl}
+                alt={p.name}
+                width={600}
+                height={400}
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                className="aspect-[4/3] w-full object-cover transition duration-300 group-hover:scale-105"
+              />
+            </div>
+            <div className="space-y-1 p-3 sm:p-4">
+              <h3 className="truncate text-sm font-medium sm:text-base">
+                {p.name}
+              </h3>
+              <p className="line-clamp-1 text-xs text-zinc-400 sm:text-sm">
+                {p.description}
+              </p>
+              <div className="flex items-center justify-between pt-2">
+                <p className="font-semibold">{formatPrice(p.priceCents)}</p>
+                <ArrowUpRight
+                  className="size-4 text-zinc-500 transition group-hover:text-indigo-400"
+                  aria-hidden
+                />
+              </div>
             </div>
           </Link>
         </li>
